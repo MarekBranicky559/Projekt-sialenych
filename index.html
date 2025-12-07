@@ -4,57 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Pivnice</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                text-align: center;
-                background-color: #f4f4f4;
-                padding: 20px;
-            }
-
-            h3 {
-                margin-top: 20px;
-            }
-
-            p {
-                font-size: 18px;
-            }
-
-            .container {
-                background: white;
-                padding: 25px;
-                border-radius: 10px;
-                max-width: 700px;
-                margin: auto;
-                box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            }
-
-            img {
-                width: 250px;
-                margin: 10px;
-                border-radius: 10px;
-                box-shadow: 0 0 8px rgba(0,0,0,0.15);
-            }
-
-            button {
-                background-color: #28a745;
-                color: white;
-                padding: 14px 28px;
-                font-size: 22px;
-                border: none;
-                border-radius: 10px;
-                cursor: pointer;
-                margin-top: 15px;
-            }
-
-            button:hover {
-                background-color: #218838;
-            }
-        </style>
-        <script>
-            let likes = 0;
-            let dislikes = 0;
-        </script>
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
         <div class="container">
@@ -74,13 +24,11 @@
             <h3>Výtvarné kúsky uživatelov</h3>
             <img src="https://www.zsnevadzova.sk/files/galleries/vytvarne-sutaze-i-stupen/img-20230612-wa0004.jpg" alt="nejake male deti" width="300" height="300">
             <div style="text-align:center; max-width:350px; margin:auto; background:white; padding:15px; border-radius:12px; box-shadow:0 3px 10px rgba(0,0,0,0.15);">
-                <button onclick="likes++ ; document.getElementById('l').innerText = likes;" 
-                        style="padding:10px 16px; font-size:18px; border-radius:8px; background:#28a745; color:white; border:none;">
-                    👍
+                <button id="likeButton" style="padding:10px 16px; font-size:18px; border-radius:8px; background:#28a745; color:white; border:none;">
+                    <span>👍</span>
                 </button>
 
-                <button onclick="dislikes++ ; document.getElementById('d').innerText = dislikes;" 
-                        style="padding:10px 16px; font-size:18px; border-radius:8px; background:#dc3545; color:white; border:none;">
+                <button id="dislikeButton" style="padding:10px 16px; font-size:18px; border-radius:8px; background:#dc3545; color:white; border:none;">
                     👎
                 </button>
 
@@ -105,5 +53,6 @@
                 <div id="comments"></div>
             </div>
         </div>
+        <script src="script.js"></script>
     </body>
 </html>
