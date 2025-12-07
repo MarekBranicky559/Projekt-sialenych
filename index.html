@@ -1,1 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pivnice</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                background-color: #f4f4f4;
+                padding: 20px;
+            }
 
+            h3 {
+                margin-top: 20px;
+            }
+
+            p {
+                font-size: 18px;
+            }
+
+            .container {
+                background: white;
+                padding: 25px;
+                border-radius: 10px;
+                max-width: 700px;
+                margin: auto;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
+
+            img {
+                width: 250px;
+                margin: 10px;
+                border-radius: 10px;
+                box-shadow: 0 0 8px rgba(0,0,0,0.15);
+            }
+
+            button {
+                background-color: #28a745;
+                color: white;
+                padding: 14px 28px;
+                font-size: 22px;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                margin-top: 15px;
+            }
+
+            button:hover {
+                background-color: #218838;
+            }
+        </style>
+        <script>
+            let likes = 0;
+            let dislikes = 0;
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <h3>O mě a mojím přitelovi ktery miluje LOL</h3>
+            <p>Volám sa bob mam 89 rokov, bydlím ve sklepě</p>
+            <p>
+                <strong>Limitovaná nabídka:</strong>
+                <br>
+                🔥10 Kč za 100 Kč 🔥
+            </p>
+            <p>Moje bydliště: sklep F</p>
+            <p>Moje bývanie je: pod mostom</p>
+            <img src="https://tse2.mm.bing.net/th/id/OIP.PnGLE54UPRPJ94jdvBWPpAHaHa?pid=Api&P=0&h=220" alt="Iphone se">
+            <img src="https://tse1.mm.bing.net/th/id/OIP.sY7i6sy1l2YPXm03MbU6kQHaJC?pid=Api&P=0&h=220" alt="Iphone 17 pro max">
+            <p>Můžete si koupit u nás, cena dohodou</p>
+            <button onclick="alert('Koupily jste')">Buy</button>
+            <h3>Výtvarné kúsky uživatelov</h3>
+            <img src="https://www.zsnevadzova.sk/files/galleries/vytvarne-sutaze-i-stupen/img-20230612-wa0004.jpg" alt="nejake male deti" width="300" height="300">
+            <div style="text-align:center; max-width:350px; margin:auto; background:white; padding:15px; border-radius:12px; box-shadow:0 3px 10px rgba(0,0,0,0.15);">
+                <button onclick="likes++ ; document.getElementById('l').innerText = likes;" 
+                        style="padding:10px 16px; font-size:18px; border-radius:8px; background:#28a745; color:white; border:none;">
+                    👍
+                </button>
+
+                <button onclick="dislikes++ ; document.getElementById('d').innerText = dislikes;" 
+                        style="padding:10px 16px; font-size:18px; border-radius:8px; background:#dc3545; color:white; border:none;">
+                    👎
+                </button>
+
+                <p style="font-size:18px;">
+                    Likes: <span id="l">0</span> · Dislikes: <span id="d">0</span>
+                </p>
+
+                <input id="cInput" type="text" placeholder="Komentár..." style="width:80%; padding:10px; border:1px solid #bbb; border-radius:8px;">
+
+                <button onclick="
+                    let t = cInput.value.trim(); 
+                    if(t){ 
+                        comments.innerHTML = '<div style=\'background:#f5f5f5; padding:8px; margin:6px 0; border-radius:6px; text-align:left;\'>'
+                        + t + '</div>' + comments.innerHTML; 
+                        cInput.value=''; 
+                    }
+                    " 
+                    style="padding:10px 14px; border-radius:8px; background:#0d6efd; color:white; border:none; margin-top:5px;">
+                    Odoslať
+                </button>
+
+                <div id="comments"></div>
+            </div>
+        </div>
+    </body>
+</html>
