@@ -1,58 +1,148 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pivnice</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div class="container">
-            <h3>O mě a mojím přitelovi ktery miluje LOL</h3>
-            <p>Volám sa bob mam 89 rokov, bydlím ve sklepě</p>
-            <p>
-                <strong>Limitovaná nabídka:</strong>
-                <br>
-                🔥10 Kč za 100 Kč 🔥
-            </p>
-            <p>Moje bydliště: sklep F</p>
-            <p>Moje bývanie je: pod mostom</p>
-            <img src="https://tse2.mm.bing.net/th/id/OIP.PnGLE54UPRPJ94jdvBWPpAHaHa?pid=Api&P=0&h=220" alt="Iphone se">
-            <img src="https://tse1.mm.bing.net/th/id/OIP.sY7i6sy1l2YPXm03MbU6kQHaJC?pid=Api&P=0&h=220" alt="Iphone 17 pro max">
-            <p>Můžete si koupit u nás, cena dohodou</p>
-            <button onclick="alert('Koupily jste')">Buy</button>
-            <h3>Výtvarné kúsky uživatelov</h3>
-            <img src="https://www.zsnevadzova.sk/files/galleries/vytvarne-sutaze-i-stupen/img-20230612-wa0004.jpg" alt="nejake male deti" width="300" height="300">
-            <div style="text-align:center; max-width:350px; margin:auto; background:white; padding:15px; border-radius:12px; box-shadow:0 3px 10px rgba(0,0,0,0.15);">
-                <button id="likeButton" style="padding:10px 16px; font-size:18px; border-radius:8px; background:#28a745; color:white; border:none;">
-                    <span>👍</span>
-                </button>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sklenený E-shop - Hlavná Stránka</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
 
-                <button id="dislikeButton" style="padding:10px 16px; font-size:18px; border-radius:8px; background:#dc3545; color:white; border:none;">
-                    👎
-                </button>
+    <header class="glass-nav">
+        <div class="logo">Pivnice E-shop</div>
+        
+        <nav class="desktop-menu">
+            <a href="index.html">Domov</a>
+            <a href="produkty.html">Produkty</a>
+            <a href="o_nas.html">O nás</a>
+            <a href="kontakt.html">Kontakt</a>
+        </nav>
 
-                <p style="font-size:18px;">
-                    Likes: <span id="l">0</span> · Dislikes: <span id="d">0</span>
-                </p>
+        <div class="nav-icons">
+            <button class="cart-btn" aria-label="Zobraziť košík">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count" class="badge">0</span>
+            </button>
+            <button class="menu-toggle" aria-label="Otvoriť menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
 
-                <input id="cInput" type="text" placeholder="Komentár..." style="width:80%; padding:10px; border:1px solid #bbb; border-radius:8px;">
+    <aside id="cart-sidebar" class="sidebar">
+        <button class="close-btn" aria-label="Zavrieť košík">&times;</button>
+        <h2>Váš Košík</h2>
+        <div id="cart-items">
+            <p>Košík je zatiaľ prázdny.</p>
+        </div>
+        <div class="cart-summary">
+            <p>Spolu: <span id="cart-total">0.00 €</span></p>
+        </div>
+        <button id="checkout-btn-link" class="checkout-btn">Pokladňa</button> 
+    </aside>
 
-                <button onclick="
-                    let t = cInput.value.trim(); 
-                    if(t){ 
-                        comments.innerHTML = '<div style=\'background:#f5f5f5; padding:8px; margin:6px 0; border-radius:6px; text-align:left;\'>'
-                        + t + '</div>' + comments.innerHTML; 
-                        cInput.value=''; 
-                    }
-                    " 
-                    style="padding:10px 14px; border-radius:8px; background:#0d6efd; color:white; border:none; margin-top:5px;">
-                    Odoslať
-                </button>
+    <main class="content">
+        <h1>Vitajte v našom E-shope!</h1>
+        <p>Tu sú naše najnovšie produkty:</p>
+        
+        <section class="products-grid">
+            <div class="product-card glass-card" data-product-id="prod_001">
+                <img src="https://i.pinimg.com/736x/17/23/52/17235277c150cfcd615b1a1abb5f7850.jpg" alt="iPhone 17 Pro Max">
+                <h3>iPhone 17 pro max</h3>
+                <p>Cena: 49.99 €</p>
+                <div class="product-action-area" id="action-area-prod_001">
+                    <button class="add-to-cart-btn" data-name="iPhone 17 Pro Max" data-price="49.99" data-id="prod_001">Pridať do košíka</button>
+                </div>
+            </div>
+            
+            <div class="product-card glass-card" data-product-id="prod_002">
+                <img src="https://i.pinimg.com/736x/37/22/17/3722175a7bb7060362f516773135a942.jpg" alt="Hračka">                
+                <h3>Hračka</h3>
+                <p>Cena: 75.50 €</p>
+                <div class="product-action-area" id="action-area-prod_002">
+                    <button class="add-to-cart-btn" data-name="Hračka" data-price="75.50" data-id="prod_002">Pridať do košíka</button>
+                </div>
+            </div>
+            
+            <div class="product-card glass-card" data-product-id="prod_003">
+               <img src="https://img.vitkac.com/uploads/product_thumb/SKARPETY%20572266%204G056-9866/lg/1.png" alt="Ponožky Gucci">
+                <h3>Ponožky značky Gucci</h3>
+                <p>Cena: 25.00 €</p>
+                <div class="product-action-area" id="action-area-prod_003">
+                    <button class="add-to-cart-btn" data-name="Ponožky Gucci" data-price="25.00" data-id="prod_003">Pridať do košíka</button>
+                </div>
+            </div>
+            <div class="product-card glass-card" data-product-id="prod_004">
+                <img src="https://images.unsplash.com/photo-1541167760496-12154441dc30?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Káva zrná">
+                <h3>Káva "Ranná sila"</h3>
+                <p>Cena: 12.90 €</p>
+                <div class="product-action-area" id="action-area-prod_004">
+                    <button class="add-to-cart-btn" data-name="Káva Ranná sila" data-price="12.90" data-id="prod_004">Pridať do košíka</button>
+                </div>
+            </div>
+            
+            <div class="product-card glass-card" data-product-id="prod_005">
+                <img src="https://images.unsplash.com/photo-1617043329094-1a93be9f55e0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Smart hodinky">
+                <h3>Smart hodinky X9</h3>
+                <p>Cena: 199.99 €</p>
+                <div class="product-action-area" id="action-area-prod_005">
+                    <button class="add-to-cart-btn" data-name="Smart hodinky X9" data-price="199.99" data-id="prod_005">Pridať do košíka</button>
+                </div>
+            </div>
+            
+            <div class="product-card glass-card" data-product-id="prod_006">
+                <img src="https://images.unsplash.com/photo-1546435770-a3e426bf4722?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Bezdrôtové slúchadlá">
+                <h3>Bezdrôtové slúchadlá Pro</h3>
+                <p>Cena: 65.00 €</p>
+                <div class="product-action-area" id="action-area-prod_006">
+                    <button class="add-to-cart-btn" data-name="Slúchadlá Pro" data-price="65.00" data-id="prod_006">Pridať do košíka</button>
+                </div>
+            </div>
+            
+            <div class="product-card glass-card" data-product-id="prod_007">
+                <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3ade1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Notebook">
+                <h3>Notebook Rýchlik 5000</h3>
+                <p>Cena: 980.00 €</p>
+                <div class="product-action-area" id="action-area-prod_007">
+                    <button class="add-to-cart-btn" data-name="Notebook Rýchlik 5000" data-price="980.00" data-id="prod_007">Pridať do košíka</button>
+                </div>
+            </div>
+            
+            <div class="product-card glass-card" data-product-id="prod_008">
+                <img src="https://images.unsplash.com/photo-1616012759881-80954b09b555?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Puzdro na telefón">
+                <h3>Ochranné puzdro (čierne)</h3>
+                <p>Cena: 15.49 €</p>
+                <div class="product-action-area" id="action-area-prod_008">
+                    <button class="add-to-cart-btn" data-name="Puzdro čierne" data-price="15.49" data-id="prod_008">Pridať do košíka</button>
+                </div>
+            </div>
+            
+            <div class="product-card glass-card" data-product-id="prod_009">
+                <img src="https://images.unsplash.com/photo-1627885461944-c6a65239e24f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Powerbanka">
+                <h3>Prenosná nabíjačka 10000mAh</h3>
+                <p>Cena: 35.90 €</p>
+                <div class="product-action-area" id="action-area-prod_009">
+                    <button class="add-to-cart-btn" data-name="Powerbanka 10000mAh" data-price="35.90" data-id="prod_009">Pridať do košíka</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <div id="overlay"></div>
 
-                <div id="comments"></div>
+    <div id="modal-added" class="modal">
+        <div class="modal-content glass-card">
+            <span class="close-modal-btn">&times;</span>
+            <h2>✅ Produkt bol pridaný!</h2>
+            <p>Čo chcete urobiť ďalej?</p>
+            <div class="modal-actions">
+                <button id="continue-shopping" class="modal-btn secondary">Pokračovať v nákupe</button>
+                <button id="go-to-cart" class="modal-btn primary">Prejsť do košíka</button>
             </div>
         </div>
-        <script src="script.js"></script>
-    </body>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
