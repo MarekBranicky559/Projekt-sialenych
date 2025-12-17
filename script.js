@@ -1,3 +1,62 @@
+const products = [
+    {
+        name: "iPhone 17 pro max",
+        img: "https://i.pinimg.com/736x/17/23/52/17235277c150cfcd615b1a1abb5f7850.jpg",
+        price: 49.99,
+    },
+    {
+        name: "Hračka",
+        img: "",
+        price: 75.5,
+    },
+    {
+        name: "Ponožky značky Gucci",
+        img: "",
+        price: 25,
+    },
+    {
+        name: "test",
+        img: "",
+        price: 150,
+    },
+    {
+        name: "testujem",
+        img: "",
+        price: 1000,
+    },
+];
+
+const productsGrid = document.getElementsByClassName('products-grid')[0];
+
+products.forEach((item, index) => {
+    const productWrapper = document.createElement('div');
+    productWrapper.classList.add('product-card', 'glass-card');
+    productWrapper.setAttribute('data-product-id', `prod_${index}`);
+    const productImg = document.createElement('img');
+    productImg.setAttribute('src', item.img);
+    productImg.setAttribute('alt', item.name);
+    const productName = document.createElement('h3');
+    productName.textContent = item.name;
+    const productPrice = document.createElement('p');
+    productPrice.textContent = `Cena: ${item.price.toFixed(2)} €`;
+    const productActionArea = document.createElement('div');
+    productActionArea.classList.add('product-action-area');
+    productActionArea.setAttribute('id', `action-area-prod_${index}`);
+    const addToCartButton = document.createElement('button');
+    addToCartButton.classList.add('add-to-cart-btn');
+    addToCartButton.setAttribute('data-name', item.name);
+    addToCartButton.setAttribute('data-price', item.price.toFixed(2));
+    addToCartButton.setAttribute('data-id', `prod_${index}`);
+    addToCartButton.textContent = "Pridať do košíka";
+
+    productWrapper.appendChild(productImg);
+    productWrapper.appendChild(productName);
+    productWrapper.appendChild(productPrice);
+    productActionArea.appendChild(addToCartButton);
+    productWrapper.appendChild(productActionArea);
+    productsGrid.appendChild(productWrapper);
+})
+
 document.addEventListener('DOMContentLoaded', () => {
     // --- Elementy a premenné ---
     const cartSidebar = document.getElementById('cart-sidebar');
