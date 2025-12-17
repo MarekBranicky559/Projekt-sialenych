@@ -12,7 +12,7 @@ body {
     min-height: 100vh;
 }
 
-/* Glassmorphism základ */
+
 .glass-nav, .glass-card {
     backdrop-filter: blur(10px); 
     -webkit-backdrop-filter: blur(10px); 
@@ -22,7 +22,7 @@ body {
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
 }
 
-/* Navigácia */
+
 .glass-nav {
     display: flex;
     justify-content: space-between;
@@ -81,7 +81,7 @@ body {
     display: none; 
 }
 
-/* Hlavný obsah */
+
 .content {
     max-width: 1200px;
     margin: 40px auto;
@@ -129,7 +129,7 @@ body {
     background-color: #0056b3;
 }
 
-/* Bočný panel Košíka */
+
 .sidebar {
     height: 100%;
     width: 0; 
@@ -188,7 +188,7 @@ body {
     cursor: pointer;
 }
 
-/* Prekrytie a Modálne okno */
+
 #overlay {
     position: fixed;
     display: none;
@@ -292,7 +292,7 @@ body {
 }
 
 
-/* --- ŠTÝLY PRE KONTROLU MNOŽSTVA NA KARTE PRODUKTU (NOVÉ) --- */
+
 
 .quantity-control {
     display: flex;

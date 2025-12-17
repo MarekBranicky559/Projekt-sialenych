@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let cart = JSON.parse(sessionStorage.getItem('e-shop-cart')) || []; 
 
-    // --- Funkcie pre Košík ---
+   
 
     function updateCart() {
         cartItemsContainer.innerHTML = '';
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderAllProductCards(); 
     }
     
-    // Nastavenie množstva produktu v košíku
+    
     function setQuantity(productId, newQuantity) {
         const itemIndex = cart.findIndex(item => item.id === productId);
 
@@ -60,12 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCart();
     }
     
-    // Vykreslí INPUT pre množstvo na produktovej karte
+    
     function updateQuantityInput(item) {
         const actionArea = document.getElementById(`action-area-${item.id}`);
         if (!actionArea) return;
 
-        // Vytvorenie HTML elementov (Buttons a Input)
         actionArea.innerHTML = `
             <div class="quantity-control">
                 <button class="decrease-btn" data-id="${item.id}">-</button>
@@ -74,9 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
         
-        // Pripojenie event listenerov ku každému novo vytvorenému tlačidlu
         
-        // Tlačidlo ZVÝŠENIA (+)
         actionArea.querySelector('.increase-btn').addEventListener('click', () => {
             const currentItem = cart.find(i => i.id === item.id);
             if (currentItem) {
@@ -84,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Tlačidlo ZNÍŽENIA (-)
+        
         actionArea.querySelector('.decrease-btn').addEventListener('click', () => {
             const currentItem = cart.find(i => i.id === item.id);
             if (currentItem) {
@@ -93,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Vykreslí pôvodné tlačidlo "Pridať do košíka"
+    
     function renderInitialButton(productId, name, price) {
         const actionArea = document.getElementById(`action-area-${productId}`);
         if (!actionArea) return;
@@ -102,17 +99,16 @@ document.addEventListener('DOMContentLoaded', () => {
             <button class="add-to-cart-btn" data-name="${name}" data-price="${price}" data-id="${productId}">Pridať do košíka</button>
         `;
         
-        // Pripájame listener k novo vytvorenému tlačidlu "Pridať do košíka"
         actionArea.querySelector('.add-to-cart-btn').addEventListener('click', handleAddToCartClick);
     }
     
-    // Renderuje stav všetkých kariet
+  
     function renderAllProductCards() {
         productCards.forEach(card => {
             const productId = card.getAttribute('data-product-id');
             const itemInCart = cart.find(item => item.id === productId);
             
-            // Získanie dát z HTML 
+            
             const name = card.querySelector('h3').textContent.trim();
             const priceText = card.querySelector('p').textContent;
             const price = parseFloat(priceText.replace('Cena:', '').replace('€', '').trim());
@@ -125,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Spracovanie kliknutia na pôvodné tlačidlo "Pridať do košíka"
+   
     function handleAddToCartClick(e) {
         const name = e.target.getAttribute('data-name');
         const price = e.target.getAttribute('data-price');
@@ -143,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showModal();
     }
 
-    // --- Funkcie pre Modálne Okno a Košík ---
+    
 
     function showModal() {
         modalAdded.style.display = 'block';
@@ -163,10 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.classList.remove('active');
     }
 
-    // --- PRIPOJENIE UDALOSTÍ ---
-
-    // Akcie z Modálneho Okna
-    closeModalBtn.addEventListener('click', hideModal);
+    
+      closeModalBtn.addEventListener('click', hideModal);
     continueShoppingBtn.addEventListener('click', hideModal);
 
     goToCartBtn.addEventListener('click', () => {
@@ -174,12 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
         openCart();
     });
     
-    // Otvoriť/Zavrieť Košík
+   
     document.querySelector('.cart-btn').addEventListener('click', openCart);
     closeBtn.addEventListener('click', closeCart);
     overlay.addEventListener('click', closeCart);
     
-    // PREJSŤ NA POKLADŇU 
+    
     checkoutBtnLink.addEventListener('click', () => {
         if (cart.length > 0) {
             sessionStorage.setItem('e-shop-cart', JSON.stringify(cart));
@@ -189,6 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- INICIALIZÁCIA ---
+    
     updateCart();
 });

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* CSS špecifické pre stránku Pokladne (prehľadnejšie) */
+       
         .checkout-container {
             max-width: 800px;
             margin: 100px auto;
@@ -44,7 +44,7 @@
             backdrop-filter: blur(5px);
         }
         
-        /* Kontajner pre VŠETKY ONLINE PLATBY (Skrytý defaultne) */
+       
         #online-payment-details {
             border: 1px dashed #aaa;
             padding: 15px;
@@ -53,7 +53,7 @@
             display: none; 
         }
 
-        /* Kontajner pre platobnú kartu (Skrytý defaultne) */
+       
         #card-details-container {
             border-top: 1px dashed #ccc;
             padding-top: 15px;
@@ -69,7 +69,7 @@
             flex: 1;
         }
         
-        /* Tlačidlo objednávky */
+        
         .place-order-btn {
             background-color: #28a745;
             color: white;
@@ -86,7 +86,7 @@
             background-color: #1e7e34;
         }
         
-        /* Celostránkový Banner úspechu */
+       
         #success-message {
             display: none; 
             position: fixed;
@@ -217,7 +217,7 @@
             const successMessage = document.getElementById('success-message');
             const mainContent = document.getElementById('main-content');
             
-            // Elementy
+           
             const paymentSelect = document.getElementById('payment');
             const onlinePaymentDetails = document.getElementById('online-payment-details');
             const onlineMethodSelect = document.getElementById('online-method');
@@ -227,9 +227,7 @@
             const cardCvvInput = document.getElementById('card-cvv');
 
 
-            // --- Funkcie pre dynamické zobrazovanie formulárov ---
-
-            // 3. ÚROVEŇ: Nastaví, či sú polia karty povinné/zobrazené
+           
             const toggleCardInputsRequired = (required) => {
                 cardNumberInput.required = required;
                 cardExpiryInput.required = required;
@@ -237,39 +235,38 @@
                 cardDetailsContainer.style.display = required ? 'block' : 'none';
             };
 
-            // 2. ÚROVEŇ: Reaguje na zmenu detailnej online metódy (Apple Pay, Google Pay, Karta)
+           
             const handleOnlineMethodChange = () => {
                 const selectedOnlineMethod = onlineMethodSelect.value;
                 
-                // Ak je vybraná klasická karta, zobraz polia a nastav ich ako povinné
+                
                 if (selectedOnlineMethod === 'karta') {
                     toggleCardInputsRequired(true);
                 } else {
-                    // Pre Apple Pay a Google Pay skry polia a zruš povinnosť
+                   
                     toggleCardInputsRequired(false);
                 }
             };
             
-            // 1. ÚROVEŇ: Reaguje na zmenu hlavnej metódy (Online Platba, Dobierka, Prevod)
-            const handlePaymentChange = () => {
+                       const handlePaymentChange = () => {
                 const selectedPayment = paymentSelect.value;
                 
                 if (selectedPayment === 'online-platba') {
                     onlinePaymentDetails.style.display = 'block';
-                    // Spustíme kontrolu pre druhú úroveň, aby sa nastavila viditeľnosť polí karty
+                    
                     handleOnlineMethodChange(); 
                 } else {
                     onlinePaymentDetails.style.display = 'none';
-                    // Vždy skryť polia karty a zrušiť ich povinnosť pri inej ako Online platbe
+                    
                     toggleCardInputsRequired(false);
                 }
             };
 
-            // Priradenie event listenerov
+           
             paymentSelect.addEventListener('change', handlePaymentChange);
             onlineMethodSelect.addEventListener('change', handleOnlineMethodChange);
 
-            // --- Načítanie a Zhrnutie košíka ---
+            
             const cartJson = sessionStorage.getItem('e-shop-cart');
             const cart = cartJson ? JSON.parse(cartJson) : [];
 
@@ -289,43 +286,40 @@
             }
             checkoutTotalDisplay.textContent = `Celková suma: ${total.toFixed(2)} €`;
 
-            // --- Spracovanie formulára (FINÁLNA KONTROLA) ---
+          
             checkoutForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
                 const isOnlinePayment = paymentSelect.value === 'online-platba';
                 const isClassicCard = onlineMethodSelect.value === 'karta';
                 
-                // 1. Kontrola, či bola zvolená aspoň hlavná metóda
+                
                 if (paymentSelect.value === '') {
                      alert('Prosím, vyberte spôsob platby.');
                      return;
                 }
 
-                // 2. Kontrola polí pre klasickú kartu, ak je vybraná
+                
                 if (isOnlinePayment && isClassicCard) {
                     if (!cardNumberInput.value || !cardExpiryInput.value || !cardCvvInput.value) {
                         alert('Prosím, vyplňte všetky údaje pre klasickú platbu kartou.');
                         return; 
                     }
                 }
-                
-                // V tomto bode je všetko platné. Môžeme simulovať dokončenie objednávky.
-                
-                // 3. Vyčistiť košík a zobraziť úspech
-                sessionStorage.removeItem('e-shop-cart');
+               
+                  sessionStorage.removeItem('e-shop-cart');
                 document.body.style.overflow = 'hidden'; 
                 mainContent.style.display = 'none';
                 successMessage.style.display = 'block';
                 
-                // 4. Presmerovanie po 4s
+                
                 setTimeout(() => {
                     document.body.style.overflow = 'auto'; 
                     window.location.href = 'index.html'; 
                 }, 4000); 
             });
 
-            // Initial check: Zavolaj logiku po načítaní stránky pre správne defaultné zobrazenie
+            
             handlePaymentChange(); 
         });
     </script>
