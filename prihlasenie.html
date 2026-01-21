@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overenie identity | Pivnice E-shop</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ŠPECIFICKÝ ŠTÝL PRE PRIHLÁSENIE */
+        .auth-body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('https://i.pinimg.com/1200x/bb/fa/ba/bbfabaf7128019c1272646356567bb61.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .auth-card {
+            background: rgba(15, 15, 15, 0.95); /* Tmavšie pozadie pre lepšiu čitateľnosť */
+            border: 2px solid #2ecc71; /* Neónová zelená */
+            border-radius: 20px;
+            padding: 50px;
+            width: 100%;
+            max-width: 500px; /* Väčšia karta */
+            box-shadow: 0 0 30px rgba(46, 204, 113, 0.3);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-card h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #2ecc71;
+            font-size: 1.2em;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(46, 204, 113, 0.5);
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1em;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #2ecc71;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+        }
+
+        .add-to-cart-btn-premium {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .add-to-cart-btn-premium:hover {
+            background: #27ae60;
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
+        }
+
+        .mode-toggle {
+            margin-top: 25px;
+            color: #bbb;
+            cursor: pointer;
+            font-size: 1em;
+            transition: 0.3s;
+        }
+
+        .mode-toggle:hover {
+            color: #2ecc71;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            color: #777;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="auth-body">
+
+    <div class="auth-card">
+        <h2 id="t">Prihlásenie</h2>
+        
+        <div id="reg-fields" style="display: none;">
+            <div class="input-wrapper">
+                <i class="fas fa-user"></i>
+                <input type="text" id="fname" placeholder="Meno">
+            </div>
+            <div class="input-wrapper">
+                <i class="fas fa-user-tag"></i>
+                <input type="text" id="lname" placeholder="Priezvisko">
+            </div>
+            <div class="input-wrapper">
+                <i class="fas fa-at"></i>
+                <input type="text" id="uname" placeholder="Používateľské meno">
+            </div>
+        </div>
+
+        <div class="input-wrapper">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="e" placeholder="E-mail">
+        </div>
+
+        <div class="input-wrapper">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="p" placeholder="Heslo">
+        </div>
+
+        <div id="confirm-p-field" style="display: none;">
+            <div class="input-wrapper">
+                <i class="fas fa-check-double"></i>
+                <input type="password" id="p2" placeholder="Potvrdiť heslo">
+            </div>
+        </div>
+
+        <button class="add-to-cart-btn-premium" onclick="auth()">POKRAČOVAŤ</button>
+        
+        <p class="mode-toggle" onclick="toggleMode()">
+            <span id="mode-text">Nemáte účet? Registrujte sa</span>
+        </p>
+
+        <a href="index.html" class="back-link">Zrušiť a vrátiť sa do e-shopu</a>
+    </div>
+
+    <script>
+        let isR = false;
+
+        function toggleMode() {
+            isR = !isR;
+            const regFields = document.getElementById('reg-fields');
+            const confirmField = document.getElementById('confirm-p-field');
+            const title = document.getElementById('t');
+            const modeText = document.getElementById('mode-text');
+
+            if (isR) {
+                title.innerText = 'Registrácia';
+                modeText.innerText = 'Už máte účet? Prihláste sa';
+                regFields.style.display = 'block';
+                confirmField.style.display = 'block';
+            } else {
+                title.innerText = 'Prihlásenie';
+                modeText.innerText = 'Nemáte účet? Registru訝te sa';
+                regFields.style.display = 'none';
+                confirmField.style.display = 'none';
+            }
+        }
+
+        function auth() {
+            const email = document.getElementById('e').value;
+            const pass = document.getElementById('p').value;
+
+            if (isR) {
+                const fname = document.getElementById('fname').value;
+                const lname = document.getElementById('lname').value;
+                const uname = document.getElementById('uname').value;
+                const pass2 = document.getElementById('p2').value;
+
+                if (!fname || !lname || !uname || !email || !pass || !pass2) {
+                    alert("Prosím, vyplňte všetky polia!");
+                    return;
+                }
+
+                if (pass !== pass2) {
+                    alert("Heslá sa nezhodujú!");
+                    return;
+                }
+
+                let users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+                if (users.find(u => u.email === email || u.username === uname)) {
+                    alert("E-mail alebo používateľské meno už existuje!");
+                    return;
+                }
+
+                const newUser = {
+                    firstName: fname,
+                    lastName: lname,
+                    username: uname,
+                    email: email,
+                    password: pass,
+                    date: new Date().toLocaleDateString()
+                };
+
+                users.push(newUser);
+                localStorage.setItem('registeredUsers', JSON.stringify(users));
+                alert("Registrácia úspešná! Teraz sa môžete prihlásiť.");
+                toggleMode();
+            } else {
+                if (!email || !pass) {
+                    alert("Zadaj email a heslo!");
+                    return;
+                }
+
+                let users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+                const user = users.find(u => u.email === email && u.password === pass);
+
+                if (!user) {
+                    alert("Nesprávne údaje!");
+                    return;
+                }
+
+                localStorage.setItem('loggedUser', JSON.stringify({ 
+                    name: user.firstName, 
+                    username: user.username,
+                    email: user.email 
+                }));
+                
+                window.location.href = "index.html";
+            }
+        }
+    </script>
+</body>
+</html>

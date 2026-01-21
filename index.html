@@ -2,89 +2,66 @@
 <html lang="sk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sklenený E-shop - Hlavná Stránka</title>
+    <title>Pivnice E-shop</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-
     <header class="glass-nav">
-        <div class="logo">Pivnice E-shop</div>
-        
-        <nav class="desktop-menu">
-            <a href="index.html">Domov</a>
-            <a href="produkty.html">Produkty</a>
-            <a href="o_nas.html">O nás</a>
-            <a href="kontakt.html">Kontakt</a>
-        </nav>
+    
+        <div class="logo">Temmu PIVNICE</div>
 
-        <div class="nav-icons">
-            <button class="cart-btn" aria-label="Zobraziť košík">
-                <i class="fas fa-shopping-cart"></i>
-                <span id="cart-count" class="badge">0</span>
-            </button>
-            <button class="menu-toggle" aria-label="Otvoriť menu">
-                <i class="fas fa-bars"></i>
-            </button>
+        <a href="admin_login.html" style="color:white; text-decoration:none;">Admin</a>
+         <a href="kontakt.html" style="color:white; text-decoration:none;">Kontakt</a>
+          <a href="o_nas.html" style="color:white; text-decoration:none;">O nás</a>
+           <a href="produkty.html" style="color:white; text-decoration:none;">Produkty</a>
+
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search-input" placeholder="Hľadať..." onkeyup="filterItems()">
         </div>
+
+
+      
+
+        <nav style="display:flex; align-items:center; gap:20px;">
+            <div onclick="toggleCart()" style="cursor:pointer; position:relative;">
+                <i class="fas fa-shopping-cart" style="font-size:1.3em;"></i>
+                <span id="cart-badge">0</span>
+            </div>
+            
+            <a href="prihlasenie.html" id="login-btn" style="color:white; text-decoration:none;">Prihlásiť</a>
+
+            <div class="user-nav-container">
+                <div id="profile-box" class="user-profile-btn" onclick="toggleDropdown(event)">
+                    <span id="user-name-display"></span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div id="logout-menu" class="logout-dropdown">
+                    <button onclick="doLogout()" class="btn-logout">Odhlásiť sa</button>
+                </div>
+            </div>
+        </nav>
     </header>
 
-    <aside id="cart-sidebar" class="sidebar">
-        <button class="close-btn" aria-label="Zavrieť košík">&times;</button>
-        <h2>Váš Košík</h2>
-        <div id="cart-items">
-            <p>Košík je zatiaľ prázdny.</p>
-        </div>
-        <div class="cart-summary">
-            <p>Spolu: <span id="cart-total">0.00 €</span></p>
-        </div>
-        <button id="checkout-btn-link" class="checkout-btn">Pokladňa</button> 
-    </aside>
+    <main id="products-grid" class="products-grid"></main>
 
-    <main class="content">
-        <h1>Vitajte v našom E-shope!</h1>
-        <p>Tu sú naše najnovšie produkty:</p>
-        
-        <section class="products-grid">
-            <div class="product-card glass-card" data-product-id="prod_001">
-                <img src="https://i.pinimg.com/736x/17/23/52/17235277c150cfcd615b1a1abb5f7850.jpg" alt="iPhone 17 Pro Max">
-                <h3>iPhone 17 pro max</h3>
-                <p>Cena: 49.99 €</p>
-                <div class="product-action-area" id="action-area-prod_001">
-                    <button class="add-to-cart-btn" data-name="iPhone 17 Pro Max" data-price="49.99" data-id="prod_001">Pridať do košíka</button>
-                </div>
-            </div>
-            
-            <div class="product-card glass-card" data-product-id="prod_002">
-                <h3>Hračka</h3>
-                <p>Cena: 75.50 €</p>
-                <div class="product-action-area" id="action-area-prod_002">
-                    <button class="add-to-cart-btn" data-name="Hračka" data-price="75.50" data-id="prod_002">Pridať do košíka</button>
-                </div>
-            </div>
-            
-            <div class="product-card glass-card" data-product-id="prod_003">
-                <h3>Ponožky značky Gucci</h3>
-                <p>Cena: 25.00 €</p>
-                <div class="product-action-area" id="action-area-prod_003">
-                    <button class="add-to-cart-btn" data-name="Ponožky Gucci" data-price="25.00" data-id="prod_003">Pridať do košíka</button>
-                </div>
-            </div>
-        </section>
-    </main>
-    
-    <div id="overlay"></div>
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span onclick="closeModal()" class="close-modal">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
 
-    <div id="modal-added" class="modal">
-        <div class="modal-content glass-card">
-            <span class="close-modal-btn">&times;</span>
-            <h2>✅ Produkt bol pridaný!</h2>
-            <p>Čo chcete urobiť ďalej?</p>
-            <div class="modal-actions">
-                <button id="continue-shopping" class="modal-btn secondary">Pokračovať v nákupe</button>
-                <button id="go-to-cart" class="modal-btn primary">Prejsť do košíka</button>
-            </div>
+    <div id="side-cart" class="side-cart">
+        <div class="side-cart-header">
+            <h2>Váš košík</h2>
+            <span onclick="toggleCart()" style="cursor:pointer; font-size:30px;">&times;</span>
+        </div>
+        <div id="cart-items-container" class="cart-items-list"></div>
+        <div class="side-cart-footer">
+            <h3 id="cart-total-price">Celkom: 0.00 €</h3>
+            <button onclick="window.location.href='checkout.html'" class="btn-add-cart">PREJSŤ NA POKLADŇU</button>
         </div>
     </div>
 

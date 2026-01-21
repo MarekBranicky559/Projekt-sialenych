@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>MASTER ADMIN PANEL</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background: #0f0f0f; padding: 20px; color: white; }
+        .admin-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.05); margin-top: 10px; }
+        th, td { padding: 12px; border: 1px solid rgba(255,255,255,0.1); text-align: left; font-size: 0.9em; }
+        th { background: rgba(255,255,255,0.1); color: #2ecc71; }
+        .stat-card { padding: 20px; margin-bottom: 20px; text-align: center; }
+        .delete-btn { background: #e74c3c; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1><i class="fas fa-user-shield"></i> Systémová aktivita</h1>
+    
+    <div class="admin-grid">
+        <div>
+            <div class="glass stat-card">
+                <canvas id="revenueChart" height="100"></canvas>
+            </div>
+
+            <div class="glass" style="padding:20px;">
+                <h3>Aktuálne objednávky</h3>
+                <table>
+                    <thead>
+                        <tr><th>ID</th><th>Zákazník</th><th>Produkty</th><th>Suma</th><th>Akcia</th></tr>
+                    </thead>
+                    <tbody id="orderList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <div class="glass" style="padding:20px;">
+                <h3>Registrovaní užívatelia</h3>
+                <div id="userList"></div>
+                <button onclick="clearUsers()" class="delete-btn" style="width:100%; margin-top:10px;">Resetovať užívateľov</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadData() {
+            const orders = JSON.parse(localStorage.getItem('allOrders')) || [];
+            const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            
+            // 1. Zobrazenie objednávok
+            const orderList = document.getElementById('orderList');
+            orderList.innerHTML = orders.map((o, index) => `
+                <tr>
+                    <td>${o.id}</td>
+                    <td>${o.customer}</td>
+                    <td><small>${o.items}</small></td>
+                    <td>${o.amount} €</td>
+                    <td><button class="delete-btn" onclick="deleteOrder(${index})">Zmazať</button></td>
+                </tr>
+            `).join('');
+
+            // 2. Zobrazenie užívateľov
+            const userDiv = document.getElementById('userList');
+            userDiv.innerHTML = users.map(u => `
+                <div style="padding:10px; border-bottom:1px solid #333;">
+                    <i class="fas fa-user"></i> ${u.email} <br>
+                    <small style="color:#888;">Registrovaný: ${u.date}</small>
+                </div>
+            `).join('') || "Žiadni užívatelia";
+
+            updateChart(orders);
+        }
+
+        function deleteOrder(index) {
+            let orders = JSON.parse(localStorage.getItem('allOrders')) || [];
+            orders.splice(index, 1);
+            localStorage.setItem('allOrders', JSON.stringify(orders));
+            loadData();
+        }
+
+        function clearUsers() {
+            if(confirm("Naozaj vymazať všetkých užívateľov?")) {
+                localStorage.removeItem('registeredUsers');
+                loadData();
+            }
+        }
+
+        function updateChart(orders) {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            const dataValues = orders.map(o => parseFloat(o.amount));
+            const labels = orders.map(o => o.id);
+
+            if(window.myChart) window.myChart.destroy();
+            window.myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Tržby v €',
+                        data: dataValues,
+                        borderColor: '#2ecc71',
+                        backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: { responsive: true, scales: { y: { beginAtZero: true } } }
+            });
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
