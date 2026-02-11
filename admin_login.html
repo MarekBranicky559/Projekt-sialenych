@@ -1,7 +1,44 @@
 <!DOCTYPE html>
 <html lang="sk">
-<body style="background:#121212; display:flex; justify-content:center; align-items:center; height:100vh;">
-    <input type="password" id="p" placeholder="Zadaj kód" style="padding:15px; text-align:center; border-radius:10px;">
-    <button onclick="if(document.getElementById('p').value=='20304010') window.location.href='admin_panel.html'" style="padding:15px; margin-left:10px; cursor:pointer;">Vstúpiť</button>
+<head>
+    <meta charset="UTF-8">
+    <title>Chránený vstup</title>
+    <style>
+        body { background: #121212; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; color: white; }
+        .login-box { background: #1e1e1e; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); text-align: center; border: 1px solid #333; }
+        input { padding: 15px; border-radius: 10px; border: 1px solid #444; background: #111; color: white; text-align: center; font-size: 1.1rem; outline: none; width: 200px; }
+        button { padding: 15px 30px; margin-top: 20px; cursor: pointer; border-radius: 10px; border: none; background: #2ecc71; color: black; font-weight: bold; font-size: 1rem; transition: 0.2s; display: block; width: 100%; }
+        button:hover { background: #27ae60; transform: scale(1.02); }
+        #error-msg { color: #ff4757; margin-top: 15px; font-weight: bold; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h2 style="margin-bottom: 20px;">Správa E-shopu</h2>
+        <input type="password" id="password-field" placeholder="Zadaj kód" onkeydown="if(event.key==='Enter') verify()">
+        <button onclick="verify()">VSTÚPIŤ</button>
+        <p id="error-msg">Nesprávny prístupový kód!</p>
+    </div>
+
+    <script>
+        function verify() {
+            const input = document.getElementById('password-field').value;
+            const error = document.getElementById('error-msg');
+
+            // Jednoduché, ale v kóde zamaskované overenie (btoa = Base64 kódovanie)
+            // 'MjAzMDQwMTA=' je zakódované '20304010'
+            if (btoa(input) === 'MjAzMDQwMTA=') {
+                error.style.display = 'none';
+                alert('Prístup povolený!');
+                
+                // TU ZMEŇ NÁZOV SVOJHO SÚBORU ADMIN PANELA:
+                window.location.href = 'admin_panel.html'; 
+            } else {
+                error.style.display = 'block';
+                document.getElementById('password-field').value = '';
+            }
+        }
+    </script>
 </body>
 </html>

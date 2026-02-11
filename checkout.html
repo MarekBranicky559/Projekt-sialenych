@@ -2,75 +2,163 @@
 <html lang="sk">
 <head>
     <meta charset="UTF-8">
-    <title>Pokladňa - Pivnice</title>
+    <title>Pokladňa | PIVNICE</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .checkout-container { max-width: 800px; margin: 50px auto; background: rgba(20,20,20,0.95); padding: 30px; border-radius: 15px; border: 2px solid #2ecc71; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; }
-        .form-group input, .form-group select { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #2ecc71; background: #000; color: white; }
+    <script src="https://widget.packeta.com/v6/www/js/library.js"></script> <style>
+        .checkout-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px; padding: 40px; max-width: 1200px; margin: auto; }
+        .section-card { background: #111; border: 1px solid #2ecc71; padding: 25px; border-radius: 15px; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        input, select { width: 100%; padding: 12px; background: #222; border: 1px solid #333; color: white; border-radius: 8px; margin-top: 5px; }
+        .payment-method { border: 1px solid #333; padding: 15px; border-radius: 10px; cursor: pointer; margin-bottom: 10px; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
+        .payment-method:hover, .payment-method.active { border-color: #2ecc71; background: rgba(46, 204, 113, 0.1); }
+        .card-details { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #333; }
+        .btn-pay { background: #2ecc71; color: white; width: 100%; padding: 18px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
     </style>
 </head>
 <body>
-    <div class="checkout-container">
-        <h1>Vaša Objednávka</h1>
-        <div id="summary" style="margin-bottom: 20px;"></div>
-        <hr style="border-color:#2ecc71; margin-bottom: 20px;">
-        
-        <form id="checkout-form">
-            <div class="form-group">
-                <label>Meno a Priezvisko</label>
-                <input type="text" id="name" required>
+
+<div class="checkout-grid">
+    <div>
+        <div class="section-card">
+            <h3>1. Kontaktné údaje</h3>
+            <div class="input-group">
+                <input type="text" id="cust-name" placeholder="Meno a Priezvisko">
+                <input type="email" id="cust-email" placeholder="E-mail">
+                <input type="text" id="cust-phone" placeholder="Telefón (napr. +421...)">
             </div>
-            <div class="form-group">
-                <label>E-mail</label>
-                <input type="email" id="email" required>
+        </div>
+
+        <div class="section-card">
+            <h3>2. Doprava</h3>
+            <div class="payment-method" onclick="openPacketa()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Zasilkovna_logo.png" height="25">
+                <div>
+                    <strong>Packeta - Odberné miesto</strong><br>
+                    <small id="selected-point">Vyberte miesto doručenia</small>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Doručenie</label>
-                <select id="shipping" required>
-                    <option value="packeta">Packeta (Zásielkovňa)</option>
-                    <option value="kurier">Kuriér na adresu</option>
-                    <option value="osobne">Osobný odber</option>
-                </select>
+            <div class="payment-method" onclick="selectShipping('domov')">
+                <span>🚚</span>
+                <div><strong>Kuriér na adresu</strong><br><small>Doručenie do 24h</small></div>
             </div>
-            <div class="form-group">
-                <label>Platba</label>
-                <select id="payment" required>
-                    <option value="apple">Apple Pay / Google Pay</option>
-                    <option value="karta">Platobná karta</option>
-                    <option value="dobierka">Dobierka</option>
-                </select>
+        </div>
+
+        <div class="section-card">
+            <h3>3. Platba</h3>
+            <div class="payment-method" onclick="showPayment('card')">
+                <span>💳</span> <strong>Platobná karta</strong>
             </div>
-            <button type="submit" style="background:#2ecc71; color:white; border:none; padding:15px; width:100%; font-size:1.2em; cursor:pointer; border-radius:10px;">POTVRDIŤ NÁKUP</button>
-        </form>
+            <div id="card-fields" class="card-details">
+                <input type="text" placeholder="Číslo karty (XXXX XXXX XXXX XXXX)" maxlength="19">
+                <div style="display:flex; gap:10px;">
+                    <input type="text" placeholder="MM/YY" maxlength="5">
+                    <input type="text" placeholder="CVC" maxlength="3">
+                </div>
+            </div>
+
+            <div class="payment-method" onclick="showPayment('apple')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Apple_Pay_logo.svg/1024px-Apple_Pay_logo.svg.png" height="20">
+                <strong>Apple Pay</strong>
+            </div>
+            
+            <div class="payment-method" onclick="showPayment('google')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/1024px-Google_Pay_Logo.svg.png" height="20">
+                <strong>Google Pay</strong>
+            </div>
+        </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const cart = JSON.parse(sessionStorage.getItem('e-shop-cart')) || [];
-            const user = JSON.parse(localStorage.getItem('loggedUser'));
-            const summary = document.getElementById('summary');
-            let total = 0;
+    <div>
+        <div class="section-card" style="position: sticky; top: 100px;">
+            <h3>Zhrnutie objednávky</h3>
+            <div id="summary-items"></div>
+            <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
+            <div style="display:flex; justify-content:space-between; font-size:1.3rem;">
+                <span>Spolu:</span>
+                <strong id="final-total">0.00 €</strong>
+            </div>
+            <br>
+            <button class="btn-pay" onclick="completeOrder()">POTVRDIŤ A ZAPLATIŤ</button>
+        </div>
+    </div>
+</div>
 
-            if(user) {
-                document.getElementById('name').value = user.name;
-                document.getElementById('email').value = user.email;
+<script>
+    // 1. AUTO-FILL Z PRIHLÁSENIA
+    document.addEventListener('DOMContentLoaded', () => {
+        const user = JSON.parse(localStorage.getItem('loggedUser'));
+        if(user) {
+            document.getElementById('cust-name').value = user.name || "";
+            document.getElementById('cust-email').value = user.email || "";
+        }
+        renderSummary();
+    });
+
+    // 2. RENDER KOŠÍKA
+    const cart = JSON.parse(sessionStorage.getItem('e-shop-cart')) || [];
+    function renderSummary() {
+        const container = document.getElementById('summary-items');
+        let total = 0;
+        container.innerHTML = cart.map(item => {
+            total += item.price * item.quantity;
+            return `<div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <span>${item.quantity}x ${item.name}</span>
+                        <span>${(item.price * item.quantity).toFixed(2)} €</span>
+                    </div>`;
+        }).join('');
+        document.getElementById('final-total').innerText = total.toFixed(2) + " €";
+    }
+
+    // 3. PACKETA WIDGET (Reálne funkčný výber)
+    function openPacketa() {
+        const apiKey = 'tvoj-kluc'; // Pre demo stačí hocičo
+        Packeta.Widget.pick(apiKey, (point) => {
+            if (point) {
+                document.getElementById('selected-point').innerText = point.name;
+                sessionStorage.setItem('shipping_type', 'Packeta: ' + point.name);
             }
+        }, { country: 'sk', language: 'sk' });
+    }
 
-            cart.forEach(item => {
-                total += item.price;
-                summary.innerHTML += `<p>${item.name} - ${item.price.toFixed(2)} €</p>`;
-            });
-            summary.innerHTML += `<h3>Celkom: ${total.toFixed(2)} €</h3>`;
-        });
+    // 4. PREPÍNANIE PLATIEB
+    let selectedPayment = '';
+    function showPayment(type) {
+        selectedPayment = type;
+        document.getElementById('card-fields').style.display = (type === 'card') ? 'block' : 'none';
+        // Vizuálne označenie (v reálnom CSS by si pridal triedu .active)
+    }
 
-        document.getElementById('checkout-form').onsubmit = (e) => {
-            e.preventDefault();
-            alert("Objednávka bola prijatá!");
-            sessionStorage.removeItem('e-shop-cart');
-            window.location.href = "index.html";
+    // 5. FINÁLNE ODOSLANIE ADMINOVI
+    function completeOrder() {
+        if(cart.length === 0) return alert("Košík je prázdny");
+        if(!document.getElementById('cust-name').value) return alert("Vyplňte meno");
+        if(!selectedPayment) return alert("Vyberte spôsob platby");
+
+        const order = {
+            id: "OBJ-" + Math.floor(1000 + Math.random() * 9000),
+            customer: document.getElementById('cust-name').value,
+            items: cart.map(i => `${i.quantity}x ${i.name}`).join(', '),
+            amount: document.getElementById('final-total').innerText,
+            payment: selectedPayment.toUpperCase(),
+            shipping: document.getElementById('selected-point').innerText,
+            date: new Date().toLocaleString()
         };
-    </script>
+
+        let allOrders = JSON.parse(localStorage.getItem('allOrders')) || [];
+        allOrders.push(order);
+        localStorage.setItem('allOrders', JSON.stringify(allOrders));
+
+        // Simulácia spracovania platby
+        const btn = document.querySelector('.btn-pay');
+        btn.innerText = "Spracovávam platbu...";
+        btn.disabled = true;
+
+        setTimeout(() => {
+            sessionStorage.removeItem('e-shop-cart');
+            alert("Platba prebehla úspešne! Objednávka bola odoslaná.");
+            window.location.href = "index.html";
+        }, 2000);
+    }
+</script>
 </body>
 </html>

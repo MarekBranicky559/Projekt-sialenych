@@ -36,7 +36,15 @@ body {
 .btn-logout { background: #ff4757; color: white; border: none; padding: 8px; border-radius: 5px; width: 100%; cursor: pointer; font-weight: bold; }
 
 /* PRODUKTY */
-.products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; padding: 40px; }
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 30px auto;
+    width: calc(100% - 40px);
+}
 .product-card { 
     background: rgba(15, 15, 15, 0.95); border: 2px solid #2ecc71; border-radius: 15px; 
     padding: 20px; text-align: center; cursor: pointer; transition: 0.3s;
